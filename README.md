@@ -1,1 +1,8 @@
-# lab5
+# lab5 discussion
+From my observations, the server’s confidence is generally higher than the wand’s. This is likely because the server uses a larger, more complex model with better computational resources, allowing it to make more accurate and confident predictions. In contrast, the wand runs a lightweight, quantized model optimized for speed and efficiency, which can lead to lower confidence scores.
+
+The data flow in this lab starts with the IMU sensor collecting data on the wand. The wand first runs its local model to make a prediction. If the confidence is above a certain threshold, it uses that result. If the confidence is too low, the wand sends the data to a server using an HTTP request. The server then runs its own model on the data and returns a higher-confidence prediction.
+
+The edge-first, fallback-to-server approach has several pros and cons. In terms of connectivity, it allows the system to work offline most of the time, but still depends on a server connection when the edge model is uncertain. It reduces latency by using fast local predictions, but incurs higher latency when falling back to the server. It may introduce inconsistencies between edge and server predictions due to differences in models. Regarding data privacy, it is stronger because most data stays on the device, but there is still a privacy risk when sending data to the server.
+
+One way to mitigate the limitation of relying on server connectivity is to periodically update the wand’s local model using new data or model updates downloaded when connectivity is available. This helps improve the edge model’s accuracy over time, reducing the need to fall back to the server.
